@@ -9,9 +9,9 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DB_PATH = os.path.join(BASE_DIR, "parkease.db")
 
 
-# =============================================================================
-# 1. DATA TYPES & ENUMERATIONS (Типы данных и перечисления с диаграммы)
-# =============================================================================
+# ============================
+# 1. DATA TYPES & ENUMERATIONS
+# ============================
 class BookingStatus:
     PENDING = "PENDING"
     CONFIRMED = "CONFIRMED"
@@ -55,9 +55,9 @@ class SearchFilters:
         self.only_available = only_available
 
 
-# =============================================================================
-# 2. ENTITIES (Сущности с диаграммы)
-# =============================================================================
+# ===========
+# 2. ENTITIES
+# ===========
 class User:
     def __init__(self, row):
         self.id = row["id"]
@@ -205,9 +205,9 @@ class Payment:
         self.status = PaymentStatus.FAILED
 
 
-# =============================================================================
-# 3. REPOSITORIES (Слой доступа к данным с диаграммы)
-# =============================================================================
+# ===============
+# 3. REPOSITORIES 
+# ===============
 class Repository(ABC):
     @abstractmethod
     def findById(self, id):
@@ -280,9 +280,9 @@ class BookingRepository(Repository):
         pass
 
 
-# =============================================================================
-# 4. CONTROL (Сервисы с диаграммы)
-# =============================================================================
+# ==========
+# 4. CONTROL 
+# ==========
 class PaymentGateway:
     def requestPayment(self, amount, card_number):
         return card_number.replace(" ", "").endswith("0000") or card_number == ""
@@ -346,9 +346,9 @@ class BookingService:
         self.db.commit()
 
 
-# =============================================================================
+# =================================
 # 5. BOUNDARY (UI / Маршруты Flask)
-# =============================================================================
+# =================================
 app = Flask(__name__)
 app.secret_key = "parkease-secret-key-change-me"
 
@@ -383,7 +383,6 @@ def inject_user():
     return {"current_user": user}
 
 
-# --- Декораторы безопасности ---
 def login_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
@@ -407,8 +406,6 @@ def role_required(*roles):
 
     return decorator
 
-
-# --- Маршруты ---
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -459,9 +456,6 @@ def logout():
     return redirect(url_for("login"))
 
 
-# =============================================================================
-# ИСПРАВЛЕННАЯ ФУНКЦИЯ index() ДЛЯ АДМИНИСТРАТОРА
-# =============================================================================
 @app.route("/")
 def index():
     if "user_id" not in session:
@@ -629,9 +623,9 @@ def reviews_list(parking_id):
     return render_template("reviews.html", parking=parking, reviews=reviews)
 
 
-# =============================================================================
+# ========================
 # ADMIN & MANAGER BOUNDARY
-# =============================================================================
+# ========================
 def check_admin_for_parking(parking_id):
     row = get_db().execute("SELECT 1 FROM parking_admins WHERE parking_id = ? AND user_id = ?",
                            (parking_id, session["user_id"])).fetchone()
