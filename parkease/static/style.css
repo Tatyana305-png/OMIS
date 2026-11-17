@@ -1,0 +1,198 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: #f4f6fa;
+    color: #1f2937;
+    font-size: 14px;
+}
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 24px; margin-bottom: 10px; }
+h2 { font-size: 18px; margin-bottom: 15px; }
+h3 { font-size: 16px; margin-bottom: 5px; }
+hr { border: none; border-top: 1px solid #e5e7eb; margin: 15px 0; }
+.muted { color: #6b7280; font-size: 13px; }
+.text-center { text-align: center; }
+.mt-10 { margin-top: 10px; } .mt-20 { margin-top: 20px; } .mb-20 { margin-bottom: 20px; } .mb-10 { margin-bottom: 10px; }
+.ml-auto { margin-left: auto; }
+
+/* Topbar */
+.topbar {
+    display: flex; align-items: center; gap: 20px;
+    background: #fff; padding: 0 24px; height: 56px;
+    border-bottom: 1px solid #e5e7eb;
+}
+.logo { font-weight: 700; font-size: 18px; color: #1d4ed8; display: flex; align-items: center; gap: 5px; }
+.role-badge { font-size: 11px; background: #e0e7ff; color: #3730a3; padding: 2px 8px; border-radius: 12px; font-weight: 600; }
+.topbar nav { display: flex; gap: 24px; margin-left: 20px; height: 100%; }
+.nav-link { color: #4b5563; font-weight: 500; display: flex; align-items: center; border-bottom: 2px solid transparent; }
+.nav-link:hover { color: #1d4ed8; text-decoration: none; }
+.nav-link.active { color: #1d4ed8; border-bottom-color: #1d4ed8; }
+.logout { margin-left: auto; color: #6b7280; font-size: 13px; }
+
+/* Container */
+.container { max-width: 1200px; margin: 30px auto; padding: 0 16px; }
+
+/* Flash */
+.flash { padding: 10px 14px; border-radius: 8px; margin-bottom: 20px; }
+.flash-success { background: #dcfce7; color: #166534; }
+.flash-danger { background: #fee2e2; color: #991b1b; }
+.flash-warning { background: #fef3c7; color: #92400e; }
+
+/* Buttons */
+.btn-primary, .btn-secondary, .btn-danger {
+    display: inline-block; padding: 8px 16px; border-radius: 6px;
+    border: none; cursor: pointer; font-size: 14px; font-weight: 500;
+    text-align: center; transition: background 0.2s;
+}
+.btn-primary { background: #2563eb; color: #fff; }
+.btn-primary:hover { background: #1d4ed8; text-decoration: none; color: #fff; }
+.btn-secondary { background: #fff; border: 1px solid #d1d5db; color: #374151; }
+.btn-secondary:hover { background: #f9fafb; text-decoration: none; color: #374151;}
+.btn-danger { background: #fee2e2; color: #991b1b; }
+.btn-danger:hover { background: #fecaca; text-decoration: none; color: #991b1b;}
+.btn-block { display: block; width: 100%; }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+
+/* Cards & Auth */
+.card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.auth-card { max-width: 400px; margin: 60px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.auth-footer { margin-top: 20px; text-align: center; font-size: 13px; }
+label { display: block; margin-bottom: 15px; font-size: 13px; font-weight: 500; color: #374151; }
+input, select, textarea {
+    width: 100%; padding: 10px; margin-top: 5px;
+    border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; outline: none;
+    font-family: inherit;
+}
+input:focus, select:focus, textarea:focus { border-color: #2563eb; }
+.form-row { display: flex; gap: 15px; }
+.form-row label { flex: 1; }
+
+/* Badges */
+.badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+.badge-green, .badge-published, .badge-confirmed { background: #dcfce7; color: #166534; }
+.badge-red, .badge-cancelled, .badge-fail { background: #fee2e2; color: #991b1b; }
+.badge-yellow, .badge-pending { background: #fef3c7; color: #92400e; }
+.badge-blue, .badge-completed { background: #e0e7ff; color: #3730a3; }
+.badge-hidden { background: #f3f4f6; color: #6b7280; }
+.stars { color: #f59e0b; font-size: 14px; letter-spacing: 2px; }
+
+/* Layouts */
+.search-layout { display: grid; grid-template-columns: 260px 1fr 300px; gap: 20px; }
+.detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.slot-layout { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+.payment-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.reviews-layout { display: grid; grid-template-columns: 1fr 350px; gap: 20px; }
+.profile-layout { display: grid; grid-template-columns: 300px 1fr; gap: 20px; }
+.admin-layout { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+.manager-admin-layout { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+.result-layout { display: flex; gap: 20px; justify-content: center; margin-top: 30px; flex-wrap: wrap; }
+
+/* Filters Panel */
+.filters-panel { background: #fff; padding: 20px; border-radius: 12px; height: fit-content; }
+.filters-panel h2 { font-size: 18px; margin-bottom: 20px; }
+.filter-row { display: flex; gap: 10px; }
+.checkbox-label { display: flex; align-items: center; gap: 8px; font-weight: normal; }
+.checkbox-label input { width: auto; margin: 0; }
+
+/* Parking Cards */
+.parking-card-horizontal { display: flex; gap: 15px; background: #fff; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.parking-thumb { width: 120px; height: 100px; background: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 12px; flex-shrink: 0; }
+.parking-info { flex: 1; }
+.parking-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.parking-price { color: #1d4ed8; font-weight: 700; font-size: 15px; }
+.parking-meta { display: flex; gap: 15px; align-items: center; margin-top: 5px; }
+
+/* Map */
+.map-panel { background: #e0f2fe; border-radius: 12px; height: 100%; min-height: 400px; position: relative; overflow: hidden; }
+.map-placeholder { width: 100%; height: 100%; display: flex; align-items: flex-end; justify-content: center; padding: 20px; color: #0284c7; font-weight: 500; }
+.map-dot { width: 12px; height: 12px; background: #2563eb; border-radius: 50%; position: absolute; box-shadow: 0 0 0 4px rgba(37,99,235,0.2); }
+
+/* Parking Detail */
+.gallery-panel .main-photo { height: 300px; background: #f3f4f6; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #9ca3af; margin-bottom: 10px; }
+.photo-thumbs { display: flex; gap: 10px; }
+.photo-thumbs .thumb { flex: 1; height: 80px; background: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 12px; }
+.detail-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+.detail-table td { padding: 12px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; }
+.detail-table td:first-child { color: #6b7280; width: 40%; }
+.detail-table td:last-child { font-weight: 500; text-align: right; }
+
+/* Slots */
+.time-form { display: flex; gap: 15px; align-items: flex-end; }
+.time-form label { flex: 1; margin: 0; }
+.duration-text { color: #2563eb; font-weight: 600; margin-bottom: 10px; display: inline-block; }
+.slots-table th, .slots-table td { padding: 12px 10px; vertical-align: middle; }
+.row-busy { opacity: 0.6; }
+.summary-total { display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: 600; margin-top: 10px; }
+.total-price { color: #1d4ed8; }
+
+/* Payment & Result */
+.alert-danger { background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; line-height: 1.5; text-align: center; }
+.result-card { background: #fff; padding: 40px; border-radius: 12px; width: 400px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.result-icon { width: 60px; height: 60px; border-radius: 50%; background: #dcfce7; color: #166534; font-size: 30px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+.result-icon.fail-icon { background: #fee2e2; color: #991b1b; }
+.result-details { text-align: left; margin: 20px 0; font-size: 14px; line-height: 1.8; }
+
+/* Reviews */
+.review-card { background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.avatar-small { width: 40px; height: 40px; background: #e0e7ff; color: #3730a3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;}
+.rating-select { font-size: 20px; color: #f59e0b; }
+
+/* Profile */
+.avatar-large { width: 100px; height: 100px; background: #e0e7ff; color: #3730a3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 600; margin: 0 auto 15px; }
+.tabs { display: flex; gap: 20px; border-bottom: 1px solid #e5e7eb; margin-bottom: 20px; }
+.tab { padding: 10px 0; color: #6b7280; font-weight: 500; cursor: pointer; }
+.tab:hover { text-decoration: none; color: #1d4ed8; }
+.tab.active { color: #2563eb; border-bottom: 2px solid #2563eb; }
+.table th, .table td { padding: 12px 10px; text-align: left; border-bottom: 1px solid #f3f4f6; }
+.table th { font-weight: 500; color: #6b7280; font-size: 13px; }
+
+/* Admin & Manager */
+.admin-controls { display: flex; gap: 15px; align-items: center; justify-content: space-between; }
+.admin-controls input, .admin-controls select { width: auto; margin: 0; padding: 8px 12px; }
+.stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f3f4f6; font-size: 14px; }
+.stat-row:last-child { border: none; }
+.photo-upload-row { display: flex; gap: 10px; margin-bottom: 20px; }
+.photo-upload-row .thumb { width: 80px; height: 60px; background: #f3f4f6; border: 1px dashed #d1d5db; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 11px; }
+.photo-upload-row .add-photo { background: #eff6ff; border-color: #93c5fd; color: #2563eb; font-weight: 500; cursor: pointer; }
+
+/* =========================================
+   ПЕРЕКЛЮЧАТЕЛЬ ПАРКОВОК (Маскировка select)
+   ========================================= */
+.parking-switcher {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 20px;
+}
+.parking-switcher select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    border: none;
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding-right: 20px;
+    outline: none;
+    font-family: inherit;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+.parking-switcher select:hover {
+    text-decoration: underline;
+}
+.parking-switcher::after {
+    content: "▼";
+    font-size: 10px;
+    color: #2563eb;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
