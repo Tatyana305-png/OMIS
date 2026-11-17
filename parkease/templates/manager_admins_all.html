@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Все администраторы</h1>
+<table class="table mt-20">
+    <thead><tr><th>ФИО</th><th>Email</th><th>Управляемые парковки</th></tr></thead>
+    <tbody>
+    {% for item in result %}
+    <tr>
+        <td>{{ item.admin.full_name }}</td>
+        <td>{{ item.admin.email }}</td>
+        <td>{{ item.parkings if item.parkings else 'Нет' }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="3" class="muted">Администраторов пока нет.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

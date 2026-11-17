@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Модерация отзывов</h1>
+
+<!-- ВЫПАДАЮЩИЙ СПИСОК -->
+<div class="parking-switcher">
+    <select onchange="window.location.href='/admin/parking/' + this.value + '/reviews'">
+        {% for p in my_parkings %}
+            <option value="{{ p.id }}" {% if p.id == parking.id %}selected{% endif %}>
+                Парковка «{{ p.name }}»
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="tabs mt-20">
+    <a href="{{ url_for('admin_reviews', parking_id=parking.id, status='ALL') }}" class="tab {% if current_status == 'ALL' %}active{% endif %}">Все</a>
+    <a href="{{ url_for('admin_reviews', parking_id=parking.id, status='PUBLISHED') }}" class="tab {% if current_status == 'PUBLISHED' %}active{% endif %}">Опубликованные</a>
+    <a href="{{ url_for('admin_reviews', parking_id=parking.id, status='HIDDEN') }}" class="tab {% if current_status == 'HIDDEN' %}active{% endif %}">Скрытые</a>
+</div>
+
+<div class="review-list mt-20">
+    {% for r in reviews %}
+    <div class="review-card">
+        <div class="review-header">
+            <!-- УСЛОВИЕ ДЛЯ АВАТАРКИ -->
+            {% if r.full_name == 'Самодумкин Сергей Александрович' %}
+                <img src="{{ url_for('static', filename='images/avatar.jpg') }}" class="avatar-small" style="object-fit: cover; border-radius: 50%;">
+            {% else %}
+                <div class="avatar-small">{{ r.full_name[:1] }}</div>
+            {% endif %}
+
+            <div>
+                <b>{{ r.full_name }}</b>
+                <span class="ml-auto stars">{{ "★" * r.rating }}</span>
+            </div>
+        </div>
+        <h3 class="mt-10">{{ r.title }}</h3>
+        <p>{{ r.text }}</p>
+        <div class="mt-10" style="display:flex; justify-content: space-between; align-items:center;">
+            {% if r.status == 'PUBLISHED' %}
+                <span class="badge badge-green">Опубликован</span>
+            {% else %}
+                <span class="badge badge-hidden">Скрыт</span>
+            {% endif %}
+
+            <form method="post" action="{{ url_for('admin_toggle_review', review_id=r.id) }}">
+                {% if r.status == 'PUBLISHED' %}
+                    <button class="btn-danger btn-sm" type="submit">Скрыть</button>
+                {% else %}
+                    <button class="btn-secondary btn-sm" type="submit">Показать</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+    {% else %}
+    <p class="muted">Отзывов в этой категории нет.</p>
+    {% endfor %}
+</div>
+{% endblock %}

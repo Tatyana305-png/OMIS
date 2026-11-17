@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-center">Результат бронирования</h1>
+<p class="muted text-center">Показывается один из двух вариантов в зависимости от результата оплаты</p>
+
+<div class="result-layout">
+    {% if booking.status == 'CONFIRMED' %}
+    <div class="result-card success">
+        <div class="result-icon">✔</div>
+        <h2>Бронирование подтверждено</h2>
+        <p class="muted">Подтверждение отправлено на email</p>
+        <div class="result-details">
+            <p>Номер брони: <b>№ {{ booking.id }}</b></p>
+            <p>Парковка: <b>{{ booking.parking_name }}, место {{ booking.slot_number }}</b></p>
+            <p>Период: <b>{{ booking.start_time[:16] }} – {{ booking.end_time[11:] }}</b></p>
+            <p>Оплачено: <b>{{ "%.2f"|format(booking.amount) }} BYN</b></p>
+        </div>
+        <a href="{{ url_for('profile') }}" class="btn-primary btn-block">Мои бронирования</a>
+        <a href="{{ url_for('search') }}" class="btn-secondary btn-block mt-10">Новый поиск</a>
+    </div>
+    {% else %}
+    <div class="result-card fail">
+        <div class="result-icon fail-icon">✖</div>
+        <h2>Оплата не прошла</h2>
+        <p class="muted">Место не списано. Бронирование отменено.</p>
+        <div class="alert-danger">
+            Причина: недостаточно средств на карте<br>
+            Попробуйте другую карту или повторите позже
+        </div>
+        <a href="{{ url_for('payment', booking_id=booking.id) }}" class="btn-primary btn-block">Повторить оплату</a>
+        <a href="{{ url_for('search') }}" class="btn-secondary btn-block mt-10">Новый поиск</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

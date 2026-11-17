@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="profile-layout">
+    <!-- ЛЕВАЯ КАРТОЧКА ПРОФИЛЯ -->
+    <aside class="profile-sidebar card">
+        <!-- УСЛОВИЕ ДЛЯ БОЛЬШОЙ АВАТАРКИ В ПРОФИЛЕ -->
+        {% if current_user.full_name == 'Самодумкин Сергей Александрович' %}
+            <img src="{{ url_for('static', filename='images/avatar.jpg') }}" class="avatar-large" style="object-fit: cover; border-radius: 50%;">
+        {% else %}
+            <div class="avatar-large">{{ current_user.full_name[:2] }}</div>
+        {% endif %}
+
+        <h2 class="text-center">{{ current_user.full_name }}</h2>
+        <p class="muted text-center">{{ current_user.email }}</p>
+        <hr>
+        <table class="detail-table">
+            <tr><td>Дата рождения</td><td>{{ current_user.birth_date or 'Не указана' }}</td></tr>
+            <tr><td>Бронирований</td><td>{{ bookings|length }}</td></tr>
+            <tr><td>Отзывов</td><td>{{ reviews|length }}</td></tr>
+        </table>
+        <button class="btn-secondary btn-block mt-10">Редактировать профиль</button>
+        <button class="btn-secondary btn-block mt-10">Сменить аватар</button>
+    </aside>
+
+    <!-- ПРАВАЯ ЧАСТЬ С ВКЛАДКАМИ -->
+    <section class="profile-content">
+        <div class="tabs">
+            <a href="{{ url_for('profile', tab='bookings') }}" class="tab {% if tab == 'bookings' %}active{% endif %}">История бронирований</a>
+            <a href="{{ url_for('profile', tab='reviews') }}" class="tab {% if tab == 'reviews' %}active{% endif %}">Мои отзывы</a>
+        </div>
+
+        {% if tab == 'bookings' %}
+        <!-- БЕЛАЯ ПОДЛОЖКА ДЛЯ ТАБЛИЦЫ -->
+        <div class="card" style="padding: 0; overflow: hidden;">
+            <table class="table" style="margin: 0; box-shadow: none; width: 100%; table-layout: auto;">
+                <thead>
+                    <tr>
+                        <th style="width: 5%; padding: 15px 10px;">№</th>
+                        <th style="width: 30%; padding: 15px 10px;">Парковка</th>
+                        <th style="width: 25%; padding: 15px 10px;">Дата и время</th>
+                        <th style="width: 20%; padding: 15px 10px;">Статус</th>
+                        <th style="width: 20%; text-align: right; padding-right: 20px;">Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for b in bookings %}
+                    <tr>
+                        <td style="padding: 15px 10px;">{{ b.id }}</td>
+                        <td style="padding: 15px 10px;">«{{ b.parking_name }}»</td>
+                        <td style="padding: 15px 10px;">{{ b.start_time[8:10] }}.10, {{ b.start_time[11:16] }}–{{ b.end_time[11:16] }}</td>
+                        <td style="padding: 15px 10px;">
+                            {% if b.status == 'CONFIRMED' %}<span class="badge badge-green">Подтверждено</span>
+                            {% elif b.status == 'PENDING' %}<span class="badge badge-yellow">Ожидает оплаты</span>
+                            {% elif b.status == 'COMPLETED' %}<span class="badge badge-blue">Завершено</span>
+                            {% elif b.status == 'CANCELLED' %}<span class="badge badge-red">Отменено</span>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 15px 10px; text-align: right; padding-right: 20px;">
+                            {% if b.status == 'CONFIRMED' %}
+                            <form method="post" action="{{ url_for('cancel_booking', booking_id=b.id) }}" style="display: inline;">
+                                <button class="btn-danger btn-sm" type="submit">Отменить</button>
+                            </form>
+                            {% else %}
+                            <button class="btn-secondary btn-sm">Оставить отзыв</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="muted text-center" style="padding: 20px;">Бронирований нет</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <!-- БЛОК ОТЗЫВОВ -->
+        <div class="review-list">
+            {% for r in reviews %}
+            <div class="review-card">
+                <div class="review-header">
+                    <b>{{ r.parking_name }}</b>
+                    <span class="ml-auto stars">{{ "★" * r.rating }}</span>
+                </div>
+                <h3 class="mt-10">{{ r.title }}</h3>
+                <p>{{ r.text }}</p>
+            </div>
+            {% else %}
+            <p class="muted">У вас пока нет отзывов.</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

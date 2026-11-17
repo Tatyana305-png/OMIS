@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="breadcrumb">
+    <a href="{{ url_for('parking_detail', parking_id=parking.id) }}">← Назад</a>
+</div>
+<h1>Отзывы: {{ parking.name }}</h1>
+<p><span class="stars">★★★★☆</span> 4,3 · 24 отзыва</p>
+
+<div class="reviews-layout">
+    <div class="reviews-list">
+        {% for r in reviews %}
+        <div class="review-card">
+            <div class="review-header">
+                <!-- УСЛОВИЕ ДЛЯ АВАТАРКИ В СПИСКЕ ОТЗЫВОВ -->
+                {% if r.full_name == 'Самодумкин Сергей Александрович' %}
+                    <img src="{{ url_for('static', filename='images/avatar.jpg') }}" class="avatar-small" style="object-fit: cover; border-radius: 50%;">
+                {% else %}
+                    <div class="avatar-small">{{ r.full_name[:1] }}</div>
+                {% endif %}
+
+                <div>
+                    <b>{{ r.full_name }}</b>
+                    <div class="muted">{{ r.created_at[:10] }}</div>
+                </div>
+                <div class="ml-auto stars">{{ "★" * r.rating }}</div>
+            </div>
+            <h3>{{ r.title }}</h3>
+            <p>{{ r.text }}</p>
+        </div>
+        {% else %}
+        <p class="muted">Отзывов пока нет.</p>
+        {% endfor %}
+    </div>
+
+    <div class="review-form card">
+        <h2>Оставить отзыв</h2>
+        <form method="post" action="{{ url_for('add_review', parking_id=parking.id) }}">
+            <label>Оценка
+                <select name="rating" class="rating-select">
+                    <option value="5">★★★★★</option>
+                    <option value="4">★★★★☆</option>
+                    <option value="3">★★★☆☆</option>
+                    <option value="2">★★☆☆☆</option>
+                    <option value="1">★☆☆☆☆</option>
+                </select>
+            </label>
+            <label>Заголовок <input name="title" required placeholder="Кратко о впечатлении"></label>
+            <label>Текст отзыва <textarea name="text" rows="5" required placeholder="Расскажите о парковке..."></textarea></label>
+            <button class="btn-primary btn-block mt-10" type="submit">Опубликовать</button>
+            <button type="button" class="btn-secondary btn-block mt-10">Отмена</button>
+        </form>
+        <p class="muted text-center mt-10" style="font-size: 12px;">Отзыв доступен после завершённого бронирования</p>
+    </div>
+</div>
+{% endblock %}

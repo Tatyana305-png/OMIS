@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-card">
+    <h1>Вход в ParkEase</h1>
+    <p class="muted text-center">Бронирование парковочных мест</p>
+    
+    <form method="post">
+        <label>Email 
+            <input type="email" name="email" required placeholder="name@example.com">
+        </label>
+        <label>Пароль 
+            <input type="password" name="password" required placeholder="••••••••">
+        </label>
+        <button class="btn-primary btn-block" type="submit">Войти</button>
+    </form>
+    
+    <div class="auth-footer">
+        <a href="{{ url_for('register') }}">Нет аккаунта? Зарегистрироваться</a>
+    </div>
+</div>
+{% endblock %}

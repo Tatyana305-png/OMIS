@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="breadcrumb">
+    <a href="{{ url_for('search') }}">← К результатам поиска</a>
+</div>
+
+<div class="detail-layout">
+    <div class="gallery-panel">
+        <!-- ДИНАМИЧЕСКАЯ БОЛЬШАЯ КАРТИНКА -->
+        {% if parking.id == 1 %}
+            <img src="{{ url_for('static', filename='images/1.png') }}" class="main-photo" style="object-fit: cover; border-radius: 12px; margin-bottom: 10px;">
+        {% elif parking.id == 2 %}
+            <img src="{{ url_for('static', filename='images/2.png') }}" class="main-photo" style="object-fit: cover; border-radius: 12px; margin-bottom: 10px;">
+        {% elif parking.id == 3 %}
+            <img src="{{ url_for('static', filename='images/3.png') }}" class="main-photo" style="object-fit: cover; border-radius: 12px; margin-bottom: 10px;">
+        {% else %}
+            <img src="{{ url_for('static', filename='images/4.png') }}" class="main-photo" style="object-fit: cover; border-radius: 12px; margin-bottom: 10px;">
+        {% endif %}
+
+        <div class="photo-thumbs">
+            <!-- ДИНАМИЧЕСКИЕ МАЛЕНЬКИЕ КАРТИНКИ -->
+            {% if parking.id == 1 %}
+                <img src="{{ url_for('static', filename='images/1_1.png') }}" class="thumb" style="object-fit: cover;">
+                <img src="{{ url_for('static', filename='images/1_2.png') }}" class="thumb" style="object-fit: cover;">
+                <img src="{{ url_for('static', filename='images/1_3.png') }}" class="thumb" style="object-fit: cover;">
+            {% elif parking.id == 2 %}
+                <img src="{{ url_for('static', filename='images/2_1.png') }}" class="thumb" style="object-fit: cover;">
+                <img src="{{ url_for('static', filename='images/2_2.png') }}" class="thumb" style="object-fit: cover;">
+                <img src="{{ url_for('static', filename='images/2_3.png') }}" class="thumb" style="object-fit: cover;">
+            {% elif parking.id == 3 %}
+                <img src="{{ url_for('static', filename='images/3_1.png') }}" class="thumb" style="object-fit: cover;">
+                <img src="{{ url_for('static', filename='images/3_2.png') }}" class="thumb" style="object-fit: cover;">
+                <img src="{{ url_for('static', filename='images/3_3.png') }}" class="thumb" style="object-fit: cover;">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/4_1.png') }}" class="thumb" style="object-fit: cover;">
+                <img src="{{ url_for('static', filename='images/4_2.png') }}" class="thumb" style="object-fit: cover;">
+                <img src="{{ url_for('static', filename='images/4_3.png') }}" class="thumb" style="object-fit: cover;">
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="info-panel">
+        <h1>{{ parking.name }}</h1>
+        <p><span class="stars">★★★★☆</span> 4.3 (24 отзыва)</p>
+        
+        <table class="detail-table">
+            <tr><td>Адрес</td><td>{{ parking.address }}</td></tr>
+            <tr><td>Режим работы</td><td>{{ parking.work_hours }}</td></tr>
+            <tr><td>Стоимость</td><td>{{ "%.2f"|format(parking.price_per_hour) }} BYN / час</td></tr>
+            <tr><td>Свободно мест</td><td>{{ parking.total_slots }} из 40</td></tr>
+        </table>
+        
+        <a class="btn-primary btn-block" href="{{ url_for('select_slot', parking_id=parking.id) }}">Забронировать место</a>
+        <a class="btn-secondary btn-block mt-10" href="{{ url_for('reviews_list', parking_id=parking.id) }}">Читать отзывы ({{ reviews|length }})</a>
+    </div>
+</div>
+
+<div class="card mt-20">
+    <h2>Описание</h2>
+    <p>{{ parking.description }}</p>
+</div>
+{% endblock %}

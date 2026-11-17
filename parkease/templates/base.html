@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>ParkEase</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+    <a href="{{ url_for('index') }}" class="logo">🅿 ParkEase</a>
+
+    {% if current_user %}
+        <span class="role-badge">
+            {% if current_user.role == 'driver' %}Водитель
+            {% elif current_user.role == 'admin' %}Администратор
+            {% elif current_user.role == 'manager' %}Менеджер
+            {% endif %}
+        </span>
+
+        <nav>
+            {% if current_user.role == 'driver' %}
+                <a href="{{ url_for('search') }}" class="nav-link {% if request.endpoint == 'search' %}active{% endif %}">Поиск парковок</a>
+                <a href="{{ url_for('profile') }}" class="nav-link {% if request.endpoint == 'profile' %}active{% endif %}">Личный кабинет</a>
+            {% elif current_user.role == 'admin' %}
+                {% set current_id = request.view_args.get('parking_id', 1) %}
+                <a href="{{ url_for('admin_parking', parking_id=current_id) }}" class="nav-link {% if 'admin_parking' in request.endpoint %}active{% endif %}">Парковка</a>
+                <a href="{{ url_for('admin_bookings', parking_id=current_id) }}" class="nav-link {% if 'admin_bookings' in request.endpoint %}active{% endif %}">Бронирования</a>
+                <a href="{{ url_for('admin_reviews', parking_id=current_id) }}" class="nav-link {% if 'admin_reviews' in request.endpoint %}active{% endif %}">Отзывы</a>
+            {% elif current_user.role == 'manager' %}
+                <a href="{{ url_for('manager_parkings') }}" class="nav-link {% if 'manager_parkings' in request.endpoint %}active{% endif %}">Все парковки</a>
+                <a href="{{ url_for('manager_admins_redirect') }}" class="nav-link {% if 'manager_admins' in request.endpoint %}active{% endif %}">Администраторы</a>
+            {% endif %}
+        </nav>
+
+        <a href="{{ url_for('logout') }}" class="logout">Выйти</a>
+    {% endif %}
+</header>
+
+<main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for cat, msg in messages %}
+            <div class="flash flash-{{ cat }}">{{ msg }}</div>
+        {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="breadcrumb">
+    <a href="{{ url_for('parking_detail', parking_id=parking.id) }}">← {{ parking.name }}</a>
+</div>
+<h1>Выбор места и времени</h1>
+
+<div class="card mb-20">
+    <form method="get" class="time-form">
+        <label>Дата <input type="date" name="date" value="{{ date }}" required></label>
+        <label>Время начала <input type="time" name="start" value="{{ start }}" required></label>
+        <label>Время окончания <input type="time" name="end" value="{{ end }}" required></label>
+        <span class="duration-text">Длительность: 3 ч</span>
+        <button class="btn-secondary" type="submit">Показать места</button>
+    </form>
+</div>
+
+{% if date and start and end %}
+<div class="slot-layout">
+    <div class="slots-table-panel">
+        <h2>Список мест</h2>
+        <table class="table slots-table">
+            <thead>
+                <tr><th>№</th><th>Тип места</th><th>Стоимость</th><th>Статус</th><th></th></tr>
+            </thead>
+            <tbody>
+            {% for s in slots %}
+                <tr class="{% if s.id in busy_ids %}row-busy{% endif %}">
+                    <td>{{ s.number }}</td>
+                    <td>{{ s.type }}</td>
+                    <td>{{ "%.2f"|format(parking.price_per_hour) }} BYN/ч</td>
+                    <td>
+                        {% if s.id in busy_ids %}
+                            <span class="badge badge-red">Занято</span>
+                        {% else %}
+                            <span class="badge badge-green">Свободно</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if s.id not in busy_ids %}
+                        <form method="post" action="{{ url_for('book', parking_id=parking.id) }}">
+                            <input type="hidden" name="slot_id" value="{{ s.id }}">
+                            <input type="hidden" name="date" value="{{ date }}">
+                            <input type="hidden" name="start" value="{{ start }}">
+                            <input type="hidden" name="end" value="{{ end }}">
+                            <button class="btn-primary btn-sm" type="submit">Выбрать</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="booking-summary-panel">
+        <div class="card">
+            <h2>Ваш выбор</h2>
+            <p class="muted">Парковка</p>
+            <h3>{{ parking.name }}</h3>
+            <p class="muted">Место</p>
+            <p>№ 3 (для инвалидов)</p>
+            <p class="muted">Период</p>
+            <p>{{ date }}, {{ start }}–{{ end }}</p>
+            <hr>
+            <div class="summary-total">
+                <span>Итого</span>
+                <span class="total-price">9,00 BYN</span>
+            </div>
+            <button class="btn-primary btn-block mt-10">Перейти к оплате</button>
+            <a href="#" class="btn-secondary btn-block mt-10">Отмена</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

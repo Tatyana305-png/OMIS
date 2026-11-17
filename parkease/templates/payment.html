@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="breadcrumb">
+    <a href="#">← Выбор места</a>
+</div>
+<h1>Оплата бронирования</h1>
+
+<div class="payment-layout">
+    <div class="payment-details card">
+        <h2>Ваше бронирование</h2>
+        <table class="detail-table">
+            <tr><td>Парковка</td><td>{{ booking.parking_name }}</td></tr>
+            <tr><td>Адрес</td><td>{{ booking.address }}</td></tr>
+            <tr><td>Место</td><td>№ {{ booking.slot_number }}</td></tr>
+            <tr><td>Дата</td><td>20.10.2026</td></tr>
+            <tr><td>Время</td><td>{{ booking.start_time[11:] }} – {{ booking.end_time[11:] }}</td></tr>
+        </table>
+        <hr>
+        <div class="summary-total">
+            <span>К оплате</span>
+            <span class="total-price">{{ "%.2f"|format(booking.amount) }} BYN</span>
+        </div>
+    </div>
+
+    <div class="payment-form card">
+        <h2>Банковская карта</h2>
+        <form method="post">
+            <label>Номер карты <input name="card_number" placeholder="0000 0000 0000 0000" value="0000 0000 0000 0000"></label>
+            <div class="form-row">
+                <label>Срок действия <input name="expiry" placeholder="ММ/ГГ"></label>
+                <label>CVC <input name="cvc" placeholder="***"></label>
+            </div>
+            <label>Имя держателя <input name="holder" value="IVAN IVANOV"></label>
+            <p class="muted mt-10">Оплата проходит через внешний платёжный сервис</p>
+            <button class="btn-primary btn-block mt-10" type="submit">Оплатить {{ "%.2f"|format(booking.amount) }} BYN</button>
+            <a href="{{ url_for('profile') }}" class="btn-secondary btn-block mt-10">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
