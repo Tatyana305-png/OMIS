@@ -14,7 +14,6 @@ def seed():
     db = sqlite3.connect(DB_PATH)
     db.execute("PRAGMA foreign_keys = ON")
 
-    # 1. Создание таблиц
     db.executescript("""
         CREATE TABLE users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -73,7 +72,6 @@ def seed():
         );
     """)
 
-    # 2. Пользователи
     pwd = generate_password_hash("123456")
     users = [
         ("Иванов Иван", "ivan@example.com", "2000-05-14", pwd, "driver"),
@@ -98,7 +96,6 @@ def seed():
         "INSERT INTO parkings (name, address, price_per_hour, work_hours, description, total_slots) VALUES (?, ?, ?, ?, ?, ?)",
         parkings)
 
-    # 4. Слоты
     for parking_id in range(1, len(parkings) + 1):
         total = parkings[parking_id - 1][5]
         for n in range(1, min(total, 10) + 1):
@@ -109,12 +106,10 @@ def seed():
                 slot_type = "Электро"
             db.execute("INSERT INTO slots (parking_id, number, type) VALUES (?, ?, ?)", (parking_id, n, slot_type))
 
-    # 5. Назначение админов
     db.execute("INSERT INTO parking_admins (parking_id, user_id) VALUES (1, 3)")
     db.execute("INSERT INTO parking_admins (parking_id, user_id) VALUES (2, 4)")
     db.execute("INSERT INTO parking_admins (parking_id, user_id) VALUES (3, 3)")
 
-    # 6. Отзывы
     now = datetime.now().isoformat()
     reviews = [
         (1, 1, 5, "Удобный въезд", "Всегда есть места, охрана вежливая.", "PUBLISHED", now),
@@ -126,7 +121,6 @@ def seed():
         "INSERT INTO reviews (user_id, parking_id, rating, title, text, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
         reviews)
 
-    # 7. Бронирования (несколько штук для наглядности)
     db.execute(
         "INSERT INTO bookings (user_id, slot_id, start_time, end_time, status, amount, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
         (1, 1, "2026-10-20 10:00", "2026-10-20 13:00", "CONFIRMED", 9.00, now))
